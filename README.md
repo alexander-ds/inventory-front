@@ -1,78 +1,95 @@
-# React + TypeScript + Vite
+# inventory-front
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web del proyecto, desarrollada con React + TypeScript + Vite.
 
-Currently, two official plugins are available:
+Es la capa de presentación del sistema distribuido. Consume el `auth-service` para login y registro, y el `inventory-service` para la API de negocio. Nunca es la autoridad de seguridad.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```text
+React
+TypeScript
+Vite
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Requisitos
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+* Node.js (versión compatible con Vite 8)
+* npm
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Instalación
 
+```bash
+npm install
 ```
+
+## Variables de entorno
+
+Copiar `.env.example` a `.env` y ajustar los valores según el entorno.
+
+```text
+# Puerto del servidor de desarrollo de Vite
+PORT=5173
+
+# URL del auth-service (login, register)
+AUTH_SERVICE_URL=http://localhost:3000
+
+# URL del inventory-service (API de negocio)
+INVENTORY_SERVICE_URL=http://localhost:8080
+```
+
+El archivo `.env` está ignorado por git y no debe commitearse.
+
+## Scripts
+
+```bash
+npm run dev       # servidor de desarrollo
+npm run build     # typecheck (tsc -b) + build de producción
+npm run lint      # ESLint
+npm run preview   # previsualizar el build
+```
+
+## Comandos para OpenCode
+
+```bash
+# TypeScript
+node_modules\.bin\tsc.cmd -b
+
+# ESLint
+node_modules\.bin\eslint.cmd .
+```
+
+## Estructura
+
+```text
+src/
+├── components/   # UI (LoginForm, RegisterForm, DashboardPage, ...)
+├── config/       # configuración de entorno
+├── contexts/     # estado de autenticación (Context API)
+├── services/     # cliente HTTP y servicios consumidos
+└── utils/        # helpers (JWT, errores)
+```
+
+## Flujo de autenticación
+
+```text
+Login Form
+    ↓
+Auth Service
+    ↓
+JWT
+    ↓
+Authentication State
+```
+
+Las peticiones autenticadas al `inventory-service` envían el token en el header:
+
+```http
+Authorization: Bearer <JWT>
+```
+
+## Más información
+
+* Arquitectura general: `docs/architecture.md`
+* Autenticación: `docs/authentication.md`
+* AGENTS.md del módulo: `AGENTS.md`
