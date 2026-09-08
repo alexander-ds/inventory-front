@@ -196,9 +196,64 @@ body {
   gap: 12px;
 }
 
-.user-email {
+.user-menu {
+  position: relative;
+}
+
+.user-menu-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.user-menu-button:hover {
+  border-color: var(--primary);
+  color: var(--text-heading);
+}
+
+.user-menu-caret {
+  font-size: 10px;
   color: var(--text-muted);
-  font-size: 14px;
+}
+
+.user-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+.user-menu-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 2;
+  min-width: 200px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.user-menu-email {
+  padding: 8px 10px;
+  color: var(--text-muted);
+  font-size: 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+.user-menu-logout {
+  width: 100%;
+  margin-top: 8px;
+  justify-content: center;
 }
 
 .app-main {
