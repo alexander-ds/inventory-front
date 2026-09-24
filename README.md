@@ -1,76 +1,41 @@
-# inventory-front
+# EjercicioIA - inventory-front
 
-Aplicación web del proyecto, desarrollada con React + TypeScript + Vite.
+Aplicación web del sistema de inventario desarrollada en React.
 
-Es la capa de presentación del sistema distribuido. Consume el `auth-service` para login y registro, y el `inventory-service` para la API de negocio. Nunca es la autoridad de seguridad.
+Es el repositorio del frontend del proyecto: responsable de la interfaz de usuario, la navegación, los formularios, el login/logout, el estado de sesión, la protección de rutas (a nivel de UX) y el consumo de las APIs. El frontend nunca es la autoridad de seguridad.
 
-## Stack
+## Repositorios
 
-```text
-React
-TypeScript
-Vite
-```
+| Proyecto | Descripción | Repositorio |
+|---|---|---|
+| `EjercicioIA-inventario` | Repositorio principal: documentación, scripts SQL y orquestación del proyecto | https://github.com/alexander-ds/EjercicioIA-inventario |
+| `auth-service` | Microservicio de autenticación (Node.js): login, users, roles, permisos y generación de JWT | https://github.com/alexander-ds/auth-service |
+| `inventory-service` | API principal (Spring Boot): lógica de negocio, inventario, autorización y validación del JWT | https://github.com/alexander-ds/inventory-service |
+| `inventory-front` | Aplicación web (React): interfaz de usuario, login/logout y consumo de APIs | https://github.com/alexander-ds/inventory-front |
 
-## Requisitos
-
-* Node.js (versión compatible con Vite 8)
-* npm
-
-## Instalación
-
-```bash
-npm install
-```
-
-## Variables de entorno
-
-Copiar `.env.example` a `.env` y ajustar los valores según el entorno.
+## Estructura del repositorio
 
 ```text
-# Puerto del servidor de desarrollo de Vite
-PORT=5173
-
-# URL del auth-service (login, register)
-AUTH_SERVICE_URL=http://localhost:3000
-
-# URL del inventory-service (API de negocio)
-INVENTORY_SERVICE_URL=http://localhost:8080
+├── src/          # Código fuente de la aplicación
+├── .env.example  # Variables de entorno de ejemplo
+├── package.json  # Dependencias y scripts
+└── AGENTS.md     # Estándares y convenciones para OpenCode
 ```
 
-El archivo `.env` está ignorado por git y no debe commitearse.
+Las variables de entorno requeridas (`AUTH_SERVICE_URL` e `INVENTORY_SERVICE_URL`) se configuran en `.env`, copiando `.env.example`.
 
-## Scripts
+## Credenciales de ejemplo
 
-```bash
-npm run dev       # servidor de desarrollo
-npm run build     # typecheck (tsc -b) + build de producción
-npm run lint      # ESLint
-npm run preview   # previsualizar el build
-```
+Clave de los usuarios de desarrollo: `123456`
 
-## Comandos para OpenCode
+| Usuario | Rol |
+|---|---|
+| `admin@inventory.local` | ADMIN |
+| `seller@inventory.local` | SELLER |
+| `ALX@email.com` | SELLER |
+| `test@email.com` | CLIENT |
 
-```bash
-# TypeScript
-node_modules\.bin\tsc.cmd -b
-
-# ESLint
-node_modules\.bin\eslint.cmd .
-```
-
-## Estructura
-
-```text
-src/
-├── components/   # UI (LoginForm, RegisterForm, DashboardPage, ...)
-├── config/       # configuración de entorno
-├── contexts/     # estado de autenticación (Context API)
-├── services/     # cliente HTTP y servicios consumidos
-└── utils/        # helpers (JWT, errores)
-```
-
-## Flujo de autenticación
+## Flujo de login
 
 ```text
 Login Form
@@ -82,14 +47,13 @@ JWT
 Authentication State
 ```
 
-Las peticiones autenticadas al `inventory-service` envían el token en el header:
+## Documentación
 
-```http
-Authorization: Bearer <JWT>
-```
+* `../docs/architecture.md` — arquitectura general.
+* `../docs/authentication.md` — flujo de autenticación y JWT.
+* `../docs/api-contract.md` — contratos de los endpoints.
+* `../docs/decisions/` — ADRs (decisiones de arquitectura).
 
-## Más información
+## Estándares
 
-* Arquitectura general: `docs/architecture.md`
-* Autenticación: `docs/authentication.md`
-* AGENTS.md del módulo: `AGENTS.md`
+Antes de trabajar en el código, leer `AGENTS.md` de la raíz y el `AGENTS.md` de este módulo.

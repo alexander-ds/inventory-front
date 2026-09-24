@@ -8,7 +8,7 @@ export type LoginResponse = {
 export type RegisterRequest = {
   email: string
   password: string
-  name?: string
+  name: string
 }
 
 export function login(email: string, password: string): Promise<LoginResponse> {
