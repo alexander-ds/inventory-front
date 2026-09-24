@@ -16,6 +16,10 @@ export function RegisterForm() {
     event.preventDefault()
     setError(null)
 
+    if (!name.trim()) {
+      setError('Ingresa tu nombre')
+      return
+    }
     if (!EMAIL_PATTERN.test(email.trim())) {
       setError('Ingresa un email válido')
       return
@@ -27,7 +31,7 @@ export function RegisterForm() {
 
     setIsSubmitting(true)
     try {
-      await register(email.trim(), password, name.trim() || undefined)
+      await register(email.trim(), password, name.trim())
     } catch (cause) {
       setError(toErrorMessage(cause))
     } finally {
@@ -46,6 +50,7 @@ export function RegisterForm() {
           className="input"
           value={name}
           onChange={(event) => setName(event.target.value)}
+          required
         />
       </div>
 
